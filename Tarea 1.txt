@@ -10,3 +10,14 @@
 
 <literalListInt>    ::= <literalInt> | <literalInt> , <literalListInt>
 <literalListFloat>  ::= <literalFloat> | <literalFloat> , <literalListFloat>
+
+
+<declaracion>   ::= val <tipo> <identificador> »
+                | val <tipo> <identificador> Ͱ <expresion> »
+
+<declaracionList>   ::= val int <identificador> »
+                    | val float <identificador> »
+                    | val int <identificador> Ͱ ¿: <literalListInt> :? »
+                    | val float <identificador> Ͱ ¿: <literalListFloat> :? »
+
+
