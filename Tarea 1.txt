@@ -94,3 +94,24 @@
 
 <read> ::= read <identificador> »
 
+<funcion> ::= fun <tipo> <identificador> <paramFun> ¿: <bloque> :?
+
+<params> ::= <tipo> <identificador> | <tipo> <identificador> , <params>
+<paramFun> ::= є: <params> :э | є: :э
+
+<llamadaFun> ::= <identificador> є: <args> :э
+               | <identificador> є: :э
+<args> ::= <expresion> | <expresion> , <args>
+
+<principal> ::= void principal ¿: <bloque> :?
+
+<comentario> ::= "|" TEXTO | ¡ TEXTO !
+
+<programa> ::= <globalesOpc> <funcionesOpc> <principal>
+
+<globalesOpc> ::= <declaracion> <globalesOpc> 
+                | <declaracionList> <globalesOpc>
+                | <comentario> <globalesOpc>
+                | ε
+
+<funcionesOpc> ::= <funcion> <funcionesOpc> | ε
