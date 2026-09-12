@@ -22,6 +22,8 @@ OP_MAYIG ::= ">="
 OP_IGUAL ::= "=="
 OP_DIFER ::= "!="
 
+COMA ::= ","
+
 BLOQUE_ABRE ::= "¿:"
 BLOQUE_CIERRA ::= ":?"
 INDICE_ABRE ::= "ʃ:"
@@ -34,6 +36,9 @@ COM_LINEA ::= "|"
 COM_MULT_ABRE ::= "¡"
 COM_MULT_CIERRA ::= "!"
 
+OP_AND ::= "λ"
+OP_OR  ::= "θ"
+OP_NOT ::= "Σ"
 
 <identificador> ::= ID
 <tipo> ::= int | float | bool | char | str
@@ -45,67 +50,67 @@ COM_MULT_CIERRA ::= "!"
 <literalChar>   ::= CARACTER
 <literalStr>    ::= CADENA
 
-<literalListInt>    ::= <literalInt> | <literalInt> , <literalListInt>
-<literalListFloat>  ::= <literalFloat> | <literalFloat> , <literalListFloat>
+<literalListInt>    ::= <literalInt> | <literalInt> COMA <literalListInt>
+<literalListFloat>  ::= <literalFloat> | <literalFloat> COMA <literalListFloat>
 
-<declaracion>   ::= val <tipo> <identificador> »
-                | val <tipo> <identificador> Ͱ <expresion> »
+<declaracion> ::= val <tipo> <identificador> FIN_SENT
+                | val <tipo> <identificador> ASIGNACION <expresion> FIN_SENT
 
-<declaracionList>   ::= val int <identificador> »
-                    | val float <identificador> »
-                    | val int <identificador> Ͱ ¿: <literalListInt> :? »
-                    | val float <identificador> Ͱ ¿: <literalListFloat> :? »
+<declaracionList> ::= val int <identificador> FIN_SENT
+                    | val float <identificador> FIN_SENT
+                    | val int <identificador> ASIGNACION BLOQUE_ABRE <literalListInt> BLOQUE_CIERRA FIN_SENT
+                    | val float <identificador> ASIGNACION BLOQUE_ABRE <literalListFloat> BLOQUE_CIERRA FIN_SENT
 
-<exprArit>  ::= <term> | <exprArit> + <term> | <exprArit> - <term>
+<exprArit> ::= <term> | <exprArit> OP_SUMA <term> | <exprArit> OP_RESTA <term>
 
-<term>  ::= <factor> | <term> * <factor> | <term> / <factor> | <term> // <factor>
+<term> ::= <factor> | <term> OP_MULT <factor> | <term> OP_DIV <factor> | <term> OP_DIV_ENT <factor>
 
-<factor>    ::= <potencia> | <factor> % <potencia>
+<factor> ::= <potencia> | <factor> OP_MOD <potencia>
 
-<potencia>  ::= <atomo> | <potencia> ^ <atomo>
+<potencia> ::= <atomo> | <potencia> OP_POT <atomo>
 
-<atomo>   ::= <literal> | <identificador> | є: <exprArit> :э
+<atomo> ::= <literal> | <identificador> | PAREN_ABRE <exprArit> PAREN_CIERRA
           | <negativo> | <unarioSuma> | <unarioResta> 
           | <llamadaFun> | <accesoList>
 
-<accesoList> ::= <identificador> ʃ: <exprArit> :ʅ
+<accesoList> ::= <identificador> INDICE_ABRE <exprArit> INDICE_CIERRA
 
-<negativo> ::= - <literalInt> | - <literalFloat> 
+<negativo> ::= OP_RESTA <literalInt> | OP_RESTA <literalFloat>
 
-<unarioSuma> ::= <identificador> ++ 
+<unarioSuma> ::= <identificador> OP_INC
 
-<unarioResta> ::= <identificador> --
+<unarioResta> ::= <identificador> OP_DEC
 
-<exprRel> ::= ʃ: <exprArit> :ʅ <opRel> ʃ: <exprArit> :ʅ  
-            | ʃ: <operandoEq> :ʅ == ʃ: <operandoEq> :ʅ 
-            | ʃ: <operandoEq> :ʅ != ʃ: <operandoEq> :ʅ
+<exprRel> ::= INDICE_ABRE <exprArit> INDICE_CIERRA <opRel> INDICE_ABRE <exprArit> INDICE_CIERRA
+            | INDICE_ABRE <operandoEq> INDICE_CIERRA OP_IGUAL INDICE_ABRE <operandoEq> INDICE_CIERRA
+            | INDICE_ABRE <operandoEq> INDICE_CIERRA OP_DIFER INDICE_ABRE <operandoEq> INDICE_CIERRA
 
-<opRel> ::= < | > | <= | >= 
+<opRel> ::= OP_MENOR | OP_MAYOR | OP_MENIG | OP_MAYIG
 
 <operandoEq> ::= <exprArit> | <literalBool> | <literalChar> | <identificador>
 
-<exprLog> ::= є: <exprLog> :э <opLog> є: <exprLog> :э
-            | Σ є: <exprLog> :э
+<exprLog> ::= PAREN_ABRE <exprLog> PAREN_CIERRA <opLog> PAREN_ABRE <exprLog> PAREN_CIERRA
+            | OP_NOT PAREN_ABRE <exprLog> PAREN_CIERRA
             | <exprRel> | <literalBool> | <identificador>
 
-<opLog> ::= λ | θ 
+<opLog> ::= OP_AND | OP_OR
 
 <expresion> ::= <exprArit> | <exprRel> | <exprLog> 
 
-<sentencia> ::= <declaracion> | <declaracionList> | <asignacion> 
-              | <expresion> » | <write> | <read>
+<sentencia> ::= <declaracion> | <declaracionList> | <asignacion>
+              | <expresion> FIN_SENT | <write> | <read>
               | <return> | <break>
 
-<asignacion> ::= <identificador> Ͱ <expresion> » 
-              | <identificador> ʃ: <exprArit> :ʅ Ͱ <expresion> » 
+<asignacion> ::= <identificador> ASIGNACION <expresion> FIN_SENT
+               | <identificador> INDICE_ABRE <exprArit> INDICE_CIERRA ASIGNACION <expresion> FIN_SENT
 
-<if> ::= if <condicion> ¿: <bloque> :? <elifOpc> <elseOpc>
+<if> ::= if <condicion> BLOQUE_ABRE <bloque> BLOQUE_CIERRA <elifOpc> <elseOpc>
 
 <elifOpc> ::= <elif> <elifOpc> |  ε
 <elseOpc> ::= <else> | ε
 
-<elif> ::= elif <condicion> ¿: <bloque> :?
-<else> ::= else ¿: <bloque> :?
+<elif> ::= elif <condicion> BLOQUE_ABRE <bloque> BLOQUE_CIERRA
+<else> ::= else BLOQUE_ABRE <bloque> BLOQUE_CIERRA
 
 <condicion> ::= <exprLog> | <exprRel> | <literalBool> | <identificador>
 
@@ -115,34 +120,36 @@ COM_MULT_CIERRA ::= "!"
 
 <estructuraControl> ::= <if> | <while> | <for>
 
-<while> ::= while <condicion> ¿: <bloque> :?
+<while> ::= while <condicion> BLOQUE_ABRE <bloque> BLOQUE_CIERRA
 
-<for> ::= for <condicionFor> ¿: <bloque> :?
+<for> ::= for <condicionFor> BLOQUE_ABRE <bloque> BLOQUE_CIERRA
 
-<condicionFor> ::= <declaracion> , <condicion> , <sentencia>
+<condicionFor> ::= <declaracion> COMA <condicion> COMA <sentencia>
 
-<return> ::= return <expresion> »
+<return> ::= return <expresion> FIN_SENT
 
-<break> ::= break »
+<break> ::= break FIN_SENT
 
-<write> ::= write <paramWrite> »
+<write> ::= write <paramWrite> FIN_SENT
 <paramWrite> ::= <literalStr> | <literalInt> 
                 | <literalBool> | <literalFloat> | <identificador>
 
-<read> ::= read <identificador> »
+<read> ::= read <identificador> FIN_SENT
 
-<funcion> ::= fun <tipo> <identificador> <paramFun> ¿: <bloque> :?
+<funcion> ::= fun <tipo> <identificador> <paramFun> BLOQUE_ABRE <bloque> BLOQUE_CIERRA
 
-<params> ::= <tipo> <identificador> | <tipo> <identificador> , <params>
-<paramFun> ::= є: <params> :э | є: :э
+<params> ::= <tipo> <identificador> | <tipo> <identificador> COMA <params>
 
-<llamadaFun> ::= <identificador> є: <args> :э
-               | <identificador> є: :э
-<args> ::= <expresion> | <expresion> , <args>
+<paramFun> ::= PAREN_ABRE <params> PAREN_CIERRA | PAREN_ABRE PAREN_CIERRA
 
-<principal> ::= void principal ¿: <bloque> :?
+<llamadaFun> ::= <identificador> PAREN_ABRE <args> PAREN_CIERRA
+               | <identificador> PAREN_ABRE PAREN_CIERRA
 
-<comentario> ::= "|" TEXTO | ¡ TEXTO !
+<args> ::= <expresion> | <expresion> COMA <args>
+
+<principal> ::= void principal BLOQUE_ABRE <bloque> BLOQUE_CIERRA
+
+<comentario> ::= COM_LINEA TEXTO | COM_MULT_ABRE TEXTO COM_MULT_CIERRA
 
 <programa> ::= <globalesOpc> <funcionesOpc> <principal>
 
