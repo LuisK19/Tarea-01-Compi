@@ -13,6 +13,7 @@
 
 <declaracion>   ::= val <tipo> <identificador> »
                 | val <tipo> <identificador> Ͱ <expresion> »
+
 <declaracionList>   ::= val int <identificador> »
                     | val float <identificador> »
                     | val int <identificador> Ͱ ¿: <literalListInt> :? »
@@ -37,4 +38,24 @@
 <unarioSuma> ::= <identificador> ++ 
 
 <unarioResta> ::= <identificador> --
+
+<exprRel> ::= ʃ: <exprArit> :ʅ <opRel> ʃ: <exprArit> :ʅ  
+            | ʃ: <operandoEq> :ʅ == ʃ: <operandoEq> :ʅ 
+            | ʃ: <operandoEq> :ʅ != ʃ: <operandoEq> :ʅ
+
+<opRel> ::= < | > | <= | >= 
+
+<operandoEq> ::= <exprArit> | <literalBool> | <literalChar> | <identificador>
+
+<exprLog> ::= є: <exprLog> :э <opLog> є: <exprLog> :э
+            | Σ є: <exprLog> :э
+            | <exprRel> | <literalBool> | <identificador>
+
+<opLog> ::= λ | θ 
+
+<expresion> ::= <exprArit> | <exprRel> | <exprLog> 
+
+<sentencia> ::= <declaracion> | <declaracionList> | <asignacion> 
+              | <expresion> » | <write> | <read>
+              | <return> | <break>
 
