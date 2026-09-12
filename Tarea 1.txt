@@ -59,3 +59,38 @@
               | <expresion> » | <write> | <read>
               | <return> | <break>
 
+<asignacion> ::= <identificador> Ͱ <expresion> » 
+              | <identificador> ʃ: <exprArit> :ʅ Ͱ <expresion> » 
+
+<if> ::= if <condicion> ¿: <bloque> :? <elifOpc> <elseOpc>
+
+<elifOpc> ::= <elif> <elifOpc> |  ε
+<elseOpc> ::= <else> | ε
+
+<elif> ::= elif <condicion> ¿: <bloque> :?
+<else> ::= else ¿: <bloque> :?
+
+<condicion> ::= <exprLog> | <exprRel> | <literalBool> | <identificador>
+
+<bloque> ::= <lineaBloque> | <lineaBloque> <bloque>
+
+<lineaBloque> ::= <sentencia> | <estructuraControl> | <comentario>
+
+<estructuraControl> ::= <if> | <while> | <for>
+
+<while> ::= while <condicion> ¿: <bloque> :?
+
+<for> ::= for <condicionFor> ¿: <bloque> :?
+
+<condicionFor> ::= <declaracion> , <condicion> , <sentencia>
+
+<return> ::= return <expresion> »
+
+<break> ::= break »
+
+<write> ::= write <paramWrite> »
+<paramWrite> ::= <literalStr> | <literalInt> 
+                | <literalBool> | <literalFloat> | <identificador>
+
+<read> ::= read <identificador> »
+
