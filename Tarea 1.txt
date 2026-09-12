@@ -1,0 +1,12 @@
+<identificador> ::= ID
+<tipo> ::= int | float | bool | char | str
+
+<literal>   ::= <literalInt> | <literalFloat> | <literalBool> | <literalChar> | <literalStr>
+<literalInt>    ::= ENTERO
+<literalFloat>  ::= FLOTANTE
+<literalBool>   ::= true | false
+<literalChar>   ::= CARACTER
+<literalStr>    ::= CADENA
+
+<literalListInt>    ::= <literalInt> | <literalInt> , <literalListInt>
+<literalListFloat>  ::= <literalFloat> | <literalFloat> , <literalListFloat>
