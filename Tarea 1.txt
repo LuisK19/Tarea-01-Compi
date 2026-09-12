@@ -1,3 +1,40 @@
+ID ::= [a-zA-Z_][a-zA-Z0-9_]*
+ENTERO ::= [0-9]+
+FLOTANTE ::= [0-9]+\.[0-9]+
+CARACTER ::= '[^']'
+CADENA ::= "[^"]*"
+TEXTO ::= .*
+
+OP_SUMA    ::= "+"
+OP_RESTA   ::= "-"
+OP_MULT    ::= "*"
+OP_DIV     ::= "/"
+OP_DIV_ENT ::= "//"
+OP_MOD     ::= "%"
+OP_POT     ::= "^"
+OP_INC     ::= "++"
+OP_DEC     ::= "--"
+
+OP_MENOR ::= "<"
+OP_MAYOR ::= ">"
+OP_MENIG ::= "<="
+OP_MAYIG ::= ">="
+OP_IGUAL ::= "=="
+OP_DIFER ::= "!="
+
+BLOQUE_ABRE ::= "¿:"
+BLOQUE_CIERRA ::= ":?"
+INDICE_ABRE ::= "ʃ:"
+INDICE_CIERRA ::= ":ʅ"
+PAREN_ABRE ::= "є:"
+PAREN_CIERRA ::= ":э"
+ASIGNACION ::= "Ͱ"
+FIN_SENT ::= "»"
+COM_LINEA ::= "|"
+COM_MULT_ABRE ::= "¡"
+COM_MULT_CIERRA ::= "!"
+
+
 <identificador> ::= ID
 <tipo> ::= int | float | bool | char | str
 
