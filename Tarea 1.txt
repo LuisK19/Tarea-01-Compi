@@ -11,13 +11,30 @@
 <literalListInt>    ::= <literalInt> | <literalInt> , <literalListInt>
 <literalListFloat>  ::= <literalFloat> | <literalFloat> , <literalListFloat>
 
-
 <declaracion>   ::= val <tipo> <identificador> »
                 | val <tipo> <identificador> Ͱ <expresion> »
-
 <declaracionList>   ::= val int <identificador> »
                     | val float <identificador> »
                     | val int <identificador> Ͱ ¿: <literalListInt> :? »
                     | val float <identificador> Ͱ ¿: <literalListFloat> :? »
 
+<exprArit>  ::= <term> | <exprArit> + <term> | <exprArit> - <term>
+
+<term>  ::= <factor> | <term> * <factor> | <term> / <factor> | <term> // <factor>
+
+<factor>    ::= <potencia> | <factor> % <potencia>
+
+<potencia>  ::= <atomo> | <potencia> ^ <atomo>
+
+<atomo>   ::= <literal> | <identificador> | є: <exprArit> :э
+          | <negativo> | <unarioSuma> | <unarioResta> 
+          | <llamadaFun> | <accesoList>
+
+<accesoList> ::= <identificador> ʃ: <exprArit> :ʅ
+
+<negativo> ::= - <literalInt> | - <literalFloat> 
+
+<unarioSuma> ::= <identificador> ++ 
+
+<unarioResta> ::= <identificador> --
 
